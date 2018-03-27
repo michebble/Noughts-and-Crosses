@@ -37,7 +37,7 @@ places to check for win
 
 
 var playArea = new Array(9).fill('');
-var whichPlayer = 'bill';
+var whichPlayer = 'x';
 
 var playMove = function(currentPlayer,  squareId) {
   playArea[squareId] = currentPlayer;
@@ -79,22 +79,24 @@ var winCondition = function() {
 
 var chooseSpace = function(event){
   var squareId = Number(event.target.getAttribute('data-id'));
-  if (whichPlayer === 'bill') {
+  if (whichPlayer === 'x') {
     playMove(whichPlayer, squareId);
-    event.target.style.backgroundImage = "url('https://www.fillmurray.com/" + event.target.clientHeight + "/" + event.target.clientWidth + "')";
+    event.target.style.backgroundImage = "url('cross.png')";
+    event.target.style.backgroundSize = "contain"; 
     event.target.removeEventListener('click', chooseSpace);
     if (winCondition() === true) {
       console.log(whichPlayer + " is the winner!")
     }
-    whichPlayer = 'nick';
-  } else if (whichPlayer === 'nick') {
+    whichPlayer = 'o';
+  } else if (whichPlayer === 'o') {
     playMove(whichPlayer, squareId);
-    event.target.style.backgroundImage = "url('http://www.placecage.com/" + event.target.clientHeight + "/" + event.target.clientWidth + "')";
+    event.target.style.backgroundImage = "url('naught.png')";
+    event.target.style.backgroundSize = "contain";
     event.target.removeEventListener('click', chooseSpace);
     if (winCondition() === true) {
       console.log(whichPlayer + " is the winner!")
     }
-    whichPlayer = 'bill';
+    whichPlayer = 'x';
   }
   console.log(playArea);
 }
