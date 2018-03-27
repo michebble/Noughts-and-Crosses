@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  border: 2px solid black;
+}
+
+main {
+  display: flex:
+  justify-content: center;
+}
+.game-board {
+  border: 2px solid darkgreen;
+  height: 600px;
+  width: 100%;
+  margin-top: auto;
+  background-color: mistyrose;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.square {
+  background-color: hotpink;
+  width: 30%;
+  height: 30%;
+}
