@@ -20,32 +20,83 @@ gameboard
 -----
 6|7|8
 
+places to check for win
+      offset
+0,1,2|1
+0,3,6|3
+0,4,8|4
+1,4,7|3
+2,4,6|2
+2,5,8|3
+3,4,5|1
+6,7,8|1
 
 
 
 */
-var scoreSheet = new Array(9).fill('');
-var whichPlayer = 'X';
 
-var playMove = function(currentPlayer, nextPlayer, squareId) {
-  scoreSheet[squareId] = currentPlayer;
-  whichPlayer = nextPlayer;
+
+var playArea = new Array(9).fill('');
+var whichPlayer = 'bill';
+
+var playMove = function(currentPlayer,  squareId) {
+  playArea[squareId] = currentPlayer;
 }
+
+
+var checkRow = function(position1, position2, position3) {
+  if (playArea[position1] == "") {
+    return false;
+  } else if (playArea[position2] !== playArea[position3]) {
+    return false;
+  } else if (playArea[position1] === playArea[position3]) {
+    return true;
+  }  
+}
+
+var winCondition = function() {
+  if (checkRow(0,1,2) === true) {
+    return true;
+  } else if (checkRow(0,3,6) === true) {
+    return true;
+  } else if (checkRow(0,4,8) === true) {
+    return true;
+  } else if (checkRow(1,4,7) === true) {
+    return true;
+  } else if (checkRow(2,4,6) === true) {
+    return true;
+  } else if (checkRow(2,5,8) === true) {
+    return true;
+  } else if (checkRow(3,4,5) === true) {
+    return true;
+  } else if (checkRow(6,7,8) === true) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 
 var chooseSpace = function(event){
   var squareId = Number(event.target.getAttribute('data-id'));
-  if (whichPlayer === 'X') {
-    playMove('X', 'O', squareId);
-    //set image
+  if (whichPlayer === 'bill') {
+    playMove(whichPlayer, squareId);
+    event.target.style.backgroundImage = "url('https://www.fillmurray.com/" + event.target.clientHeight + "/" + event.target.clientWidth + "')";
     event.target.removeEventListener('click', chooseSpace);
-    //check win conditions
-  } else if (whichPlayer === 'O') {
-    playMove('O','X', squareId);
-    //setimage
+    if (winCondition() === true) {
+      console.log(whichPlayer + " is the winner!")
+    }
+    whichPlayer = 'nick';
+  } else if (whichPlayer === 'nick') {
+    playMove(whichPlayer, squareId);
+    event.target.style.backgroundImage = "url('http://www.placecage.com/" + event.target.clientHeight + "/" + event.target.clientWidth + "')";
     event.target.removeEventListener('click', chooseSpace);
-    //check win condition
+    if (winCondition() === true) {
+      console.log(whichPlayer + " is the winner!")
+    }
+    whichPlayer = 'bill';
   }
-  console.log(scoreSheet);
+  console.log(playArea);
 }
 
 
@@ -77,5 +128,3 @@ for (var i = 0; i < 9; i++) {
   gameSquare.setAttribute('data-id',i);
   gameBoard.appendChild(gameSquare);
 }
-
-
