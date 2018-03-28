@@ -37,12 +37,11 @@ places to check for win
 
 
 var playArea = new Array(9).fill('');
-var whichPlayer = 'x';
+var whichPlayer = 'cross';
 
 var playMove = function(currentPlayer,  squareId) {
   playArea[squareId] = currentPlayer;
 }
-
 
 var checkRow = function(position1, position2, position3) {
   if (playArea[position1] == "") {
@@ -76,38 +75,46 @@ var winCondition = function() {
   }
 }
 
+var placeMark = function(markName) {
+  
+  event.target.style.backgroundImage = "url('" + markName + ".png')";
+  event.target.style.backgroundSize = "contain"; 
+  event.target.removeEventListener('click', chooseSpace);
+}
+
+var disableBoard = function() {
+  var squareToDisable = document.querySelectorAll('.square');
+  for (var i =0; i < 9; i++) {
+    squareToDisable[i].removeEventListener('click', chooseSpace);
+  }
+}
 
 var chooseSpace = function(event){
   var squareId = Number(event.target.getAttribute('data-id'));
-  if (whichPlayer === 'x') {
+  if (whichPlayer === 'cross') {
     playMove(whichPlayer, squareId);
-    event.target.style.backgroundImage = "url('cross.png')";
-    event.target.style.backgroundSize = "contain"; 
-    event.target.removeEventListener('click', chooseSpace);
+    placeMark(whichPlayer);
     if (winCondition() === true) {
-      console.log(whichPlayer + " is the winner!")
+      console.log(whichPlayer + " is the winner!");
+      disableBoard();
     }
-    whichPlayer = 'o';
-  } else if (whichPlayer === 'o') {
+    whichPlayer = 'naught';
+  } else if (whichPlayer === 'naught') {
     playMove(whichPlayer, squareId);
-    event.target.style.backgroundImage = "url('naught.png')";
-    event.target.style.backgroundSize = "contain";
-    event.target.removeEventListener('click', chooseSpace);
+    placeMark(whichPlayer);
     if (winCondition() === true) {
-      console.log(whichPlayer + " is the winner!")
+      console.log(whichPlayer + " is the winner!");
+      disableBoard();
     }
-    whichPlayer = 'x';
+    whichPlayer = 'cross';
   }
   console.log(playArea);
 }
 
 
-
-
-
-var assignToken = function(event) {
-  event.target.style.backgroundImage = "url('https://www.fillmurray.com/" + event.target.clientHeight + "/" + event.target.clientWidth + "')";
-}
+// var assignToken = function(event) {
+//   event.target.style.backgroundImage = "url('https://www.fillmurray.com/" + event.target.clientHeight + "/" + event.target.clientWidth + "')";
+// }
 
 //---presentation---//
 
@@ -121,7 +128,6 @@ get the elemets
 */
 
 var gameBoard = document.querySelector('.game-board');
-
 
 for (var i = 0; i < 9; i++) {
   var gameSquare = document.createElement('div');
