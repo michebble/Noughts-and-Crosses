@@ -36,7 +36,10 @@ places to check for win
 */
 
 
+
+
 var playArea = new Array(9).fill('emptySquare');
+var winningCombinations = [[0,1,2],[0,3,6],[0,4,8],[1,4,7],[2,4,6],[2,5,8],[3,4,5],[6,7,8]];
 var whichPlayer = 'cross';
 
 var playMove = function(currentPlayer,  squareId) {
@@ -54,26 +57,14 @@ var checkRow = function(position1, position2, position3) {
 }
 
 var winCondition = function() {
-  if (checkRow(0,1,2) === true) {
-    return true;
-  } else if (checkRow(0,3,6) === true) {
-    return true;
-  } else if (checkRow(0,4,8) === true) {
-    return true;
-  } else if (checkRow(1,4,7) === true) {
-    return true;
-  } else if (checkRow(2,4,6) === true) {
-    return true;
-  } else if (checkRow(2,5,8) === true) {
-    return true;
-  } else if (checkRow(3,4,5) === true) {
-    return true;
-  } else if (checkRow(6,7,8) === true) {
-    return true;
-  } else {
-    return false;
+  for (var possibleCombination = 0; possibleCombination < winningCombinations.length; possibleCombination++) {
+    if (checkRow(winningCombinations[possibleCombination][0],winningCombinations[possibleCombination][1],winningCombinations[possibleCombination][2]) === true) {
+      return true;
+    }
   }
+  return false;
 }
+
 
 var tallyPoints = function(winner) {
   var scoreOne = document.createElement('div');
@@ -123,8 +114,7 @@ var chooseSpace = function(event){
   } else if (whichPlayer === 'naught') {
     playMove(whichPlayer, squareId);
     placeMark(whichPlayer);
-    if (winCondition() === true) {
-      
+    if (winCondition() === true) { 
       tallyPoints(whichPlayer);
     } else if (winCondition() === false && playArea.indexOf('emptySquare') === -1) {
       console.log("game over");
