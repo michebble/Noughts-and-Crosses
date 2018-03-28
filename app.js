@@ -75,12 +75,29 @@ var winCondition = function() {
   }
 }
 
+var addWinLose = function(winner) {
+  var scoreOne = document.createElement('div');
+  scoreOne.textContent = '1';
+  var scoreZero = document.createElement('div');
+  scoreZero.textContent = '0';
+  if (winner === 'cross') {
+    playerOnesArea.appendChild(scoreOne);
+    playerTwosArea.appendChild(scoreZero);
+  } else if (winner === 'naught') {
+    playerTwosArea.appendChild(scoreOne);
+    playerOnesArea.appendChild(scoreZero);
+  }
+}
+
 var placeMark = function(markName) {
-  
   event.target.style.backgroundImage = "url('" + markName + ".png')";
   event.target.style.backgroundSize = "contain"; 
+  event.target.classList.remove('rotateIn');
+  event.target.classList.add('jello');
   event.target.removeEventListener('click', chooseSpace);
 }
+
+
 
 var disableBoard = function() {
   var squareToDisable = document.querySelectorAll('.square');
@@ -95,6 +112,7 @@ var chooseSpace = function(event){
     playMove(whichPlayer, squareId);
     placeMark(whichPlayer);
     if (winCondition() === true) {
+      addWinLose(whichPlayer);
       console.log(whichPlayer + " is the winner!");
       disableBoard();
     }
@@ -103,6 +121,7 @@ var chooseSpace = function(event){
     playMove(whichPlayer, squareId);
     placeMark(whichPlayer);
     if (winCondition() === true) {
+      addWinLose(whichPlayer);
       console.log(whichPlayer + " is the winner!");
       disableBoard();
     }
@@ -127,14 +146,21 @@ get the elemets
 
 */
 
+
+
 var gameBoard = document.querySelector('.game-board');
 var playerOnesArea = document.querySelector('.player-ones-area');
 var playerTwosArea = document.querySelector('.player-twos-area');
-
-for (var i = 0; i < 9; i++) {
-  var gameSquare = document.createElement('div');
-  gameSquare.addEventListener('click', chooseSpace);
-  gameSquare.className = 'square';
-  gameSquare.setAttribute('data-id',i);
-  gameBoard.appendChild(gameSquare);
+var createBoard = function() {
+  for (var i = 0; i < 9; i++) {
+    var gameSquare = document.createElement('div');
+    gameSquare.addEventListener('click', chooseSpace);
+    gameSquare.className = 'square';
+    gameSquare.setAttribute('data-id',i);
+    gameSquare.classList.add('animated');
+    gameSquare.classList.add('rotateIn');
+    gameBoard.appendChild(gameSquare);
+  }
 }
+
+createBoard();

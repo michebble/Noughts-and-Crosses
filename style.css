@@ -3,15 +3,17 @@
 }
 
 body {
+  font-family: 'Righteous', cursive;
+  color: #F24D29;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
 header {
+  background-color: #E5C4A1;
   display: flex;
   justify-content: center;
-  border: 2px solid black;
 }
 
 main {
@@ -20,40 +22,39 @@ main {
   flex-wrap: wrap;
 }
 .game-board {
-  border: 2px solid darkgreen;
   height: 20em;
   width: 20em;
-  background-color: mistyrose;
+  background-color: #1C366B;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
-  order: -1;
+  order: 0;
 }
 
 .square {
-  background-color: hotpink;
+  background-color: #C4CFD0;
+  border: 1px solid #1C366B;
   width: 30%;
   height: 30%;
 }
 
 .player-ones-area, .player-twos-area {
   width: 10em;
+  background-color: #1DACE8;
+  text-align: center;
 }
 
-.player-ones-area {
-  background-color: darkcyan;
+footer {
+  background-color: #E5C4A1;
+  
 }
 
-.player-twos-area {
-  background-color: darkmagenta;
-}
-
-@media (min-width: 40em) {
+/* @media (min-width: 40em) {
   .game-board {
     order: 0;
   }
 
 
-}
+} */
 
