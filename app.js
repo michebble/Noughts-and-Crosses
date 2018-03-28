@@ -66,17 +66,24 @@ var winCondition = function() {
 }
 
 
-var tallyPoints = function(winner) {
-  var scoreOne = document.createElement('div');
-  scoreOne.textContent = '1';
-  var scoreZero = document.createElement('div');
-  scoreZero.textContent = '0';
+var assignPointsForRound = function(winner) {
+  var crossScoreForRound = document.createElement('div');
+  var naughtsScoreForRound = document.createElement('div');
   if (winner === 'cross') {
-    playerOnesArea.appendChild(scoreOne);
-    playerTwosArea.appendChild(scoreZero);
+    crossScoreForRound.textContent = '1';
+    crossScoreSheet.appendChild(crossScoreForRound);
+    naughtsScoreForRound.textContent = '0';
+    naughtsScoreSheet.appendChild(naughtsScoreForRound);
   } else if (winner === 'naught') {
-    playerTwosArea.appendChild(scoreOne);
-    playerOnesArea.appendChild(scoreZero);
+    crossScoreForRound.textContent = '0';
+    crossScoreSheet.appendChild(crossScoreForRound);
+    naughtsScoreForRound.textContent = '1';
+    naughtsScoreSheet.appendChild(naughtsScoreForRound);
+  } else if (winner === 'none') {
+    crossScoreForRound.textContent = '0';
+    crossScoreSheet.appendChild(crossScoreForRound);
+    naughtsScoreForRound.textContent = '0';
+    naughtsScoreSheet.appendChild(naughtsScoreForRound);
   }
   setTimeout(clearBoard, 1000);
 }
@@ -105,9 +112,10 @@ var chooseSpace = function(event){
     placeMark(whichPlayer);
     if (winCondition() === true) {
       disableBoard();
-      tallyPoints(whichPlayer);
+      assignPointsForRound(whichPlayer);
     } else if (winCondition() === false && playArea.indexOf('emptySquare') === -1) {
       console.log("game over");
+      assignPointsForRound('none');
       setTimeout(clearBoard, 1000);
     } 
     whichPlayer = 'naught';
@@ -115,9 +123,10 @@ var chooseSpace = function(event){
     playMove(whichPlayer, squareId);
     placeMark(whichPlayer);
     if (winCondition() === true) { 
-      tallyPoints(whichPlayer);
+      assignPointsForRound(whichPlayer);
     } else if (winCondition() === false && playArea.indexOf('emptySquare') === -1) {
       console.log("game over");
+      assignPointsForRound('none');
       setTimeout(clearBoard, 1000);
     } 
     whichPlayer = 'cross';
@@ -144,8 +153,8 @@ get the elemets
 
 
 var gameBoard = document.querySelector('.game-board');
-var playerOnesArea = document.querySelector('.player-ones-area');
-var playerTwosArea = document.querySelector('.player-twos-area');
+var crossScoreSheet = document.querySelector('.player-ones-area');
+var naughtsScoreSheet = document.querySelector('.player-twos-area');
 
 var createBoard = function() {
   for (var i = 0; i < 9; i++) {
