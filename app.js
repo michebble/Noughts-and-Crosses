@@ -128,6 +128,8 @@ get the elemets
 */
 
 var gameBoard = document.querySelector('.game-board');
+var playerOnesArea = document.querySelector('.player-ones-area');
+var playerTwosArea = document.querySelector('.player-twos-area');
 
 for (var i = 0; i < 9; i++) {
   var gameSquare = document.createElement('div');

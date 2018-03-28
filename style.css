@@ -37,15 +37,15 @@ main {
   height: 30%;
 }
 
-.player-one-score, .player-two-score {
+.player-ones-area, .player-twos-area {
   width: 10em;
 }
 
-.player-one-score {
+.player-ones-area {
   background-color: darkcyan;
 }
 
-.player-two-score {
+.player-twos-area {
   background-color: darkmagenta;
 }
 
