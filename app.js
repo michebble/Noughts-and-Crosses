@@ -36,7 +36,7 @@ places to check for win
 */
 
 
-var playArea = new Array(9).fill('');
+var playArea = new Array(9).fill('emptySquare');
 var whichPlayer = 'cross';
 
 var playMove = function(currentPlayer,  squareId) {
@@ -70,12 +70,15 @@ var winCondition = function() {
     return true;
   } else if (checkRow(6,7,8) === true) {
     return true;
+  } else if (playArea.indexOf('emptySquare') === -1){
+    console.log('no one won')
+    return false 
   } else {
     return false;
   }
 }
 
-var addWinLose = function(winner) {
+var tallyPoints = function(winner) {
   var scoreOne = document.createElement('div');
   scoreOne.textContent = '1';
   var scoreZero = document.createElement('div');
@@ -87,7 +90,8 @@ var addWinLose = function(winner) {
     playerTwosArea.appendChild(scoreOne);
     playerOnesArea.appendChild(scoreZero);
   }
-  setTimeout(clearBoard, 2000);
+
+  setTimeout(clearBoard, 1000);
 }
 
 var placeMark = function(markName) {
@@ -114,9 +118,7 @@ var chooseSpace = function(event){
     placeMark(whichPlayer);
     if (winCondition() === true) {
       disableBoard();
-      addWinLose(whichPlayer);
-      console.log(whichPlayer + " is the winner!");
-      
+      tallyPoints(whichPlayer);
     }
     whichPlayer = 'naught';
   } else if (whichPlayer === 'naught') {
@@ -124,9 +126,7 @@ var chooseSpace = function(event){
     placeMark(whichPlayer);
     if (winCondition() === true) {
       disableBoard();
-      addWinLose(whichPlayer);
-      console.log(whichPlayer + " is the winner!");
-      
+      tallyPoints(whichPlayer);
     }
     whichPlayer = 'cross';
   }
@@ -154,6 +154,7 @@ get the elemets
 var gameBoard = document.querySelector('.game-board');
 var playerOnesArea = document.querySelector('.player-ones-area');
 var playerTwosArea = document.querySelector('.player-twos-area');
+
 var createBoard = function() {
   for (var i = 0; i < 9; i++) {
     var gameSquare = document.createElement('div');
@@ -171,8 +172,8 @@ var clearBoard =function() {
   for (var i = 0; i < 9; i++) {
     gameBoard.removeChild(squaresToClear[i]);
   }
-  playArea = new Array(9).fill('');
-  whichPlayer = 'cross';
+  playArea = new Array(9).fill('emptySquare');
+  // whichPlayer = 'cross';
   createBoard();
 }
 createBoard();
