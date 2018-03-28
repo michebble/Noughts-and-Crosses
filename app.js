@@ -87,7 +87,7 @@ var addWinLose = function(winner) {
     playerTwosArea.appendChild(scoreOne);
     playerOnesArea.appendChild(scoreZero);
   }
-  clearBoard();
+  setTimeout(clearBoard, 2000);
 }
 
 var placeMark = function(markName) {
@@ -113,18 +113,20 @@ var chooseSpace = function(event){
     playMove(whichPlayer, squareId);
     placeMark(whichPlayer);
     if (winCondition() === true) {
+      disableBoard();
       addWinLose(whichPlayer);
       console.log(whichPlayer + " is the winner!");
-      // disableBoard();
+      
     }
     whichPlayer = 'naught';
   } else if (whichPlayer === 'naught') {
     playMove(whichPlayer, squareId);
     placeMark(whichPlayer);
     if (winCondition() === true) {
+      disableBoard();
       addWinLose(whichPlayer);
       console.log(whichPlayer + " is the winner!");
-      // disableBoard();
+      
     }
     whichPlayer = 'cross';
   }
