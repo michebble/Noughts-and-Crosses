@@ -65,25 +65,22 @@ var winCondition = function() {
   return false;
 }
 
+var fillInScoreSheet = function(crossPoint, naughtsPoint) {
+  var crossScoreForRound = document.createElement('div');
+  crossScoreForRound.textContent = crossPoint;
+  crossScoreSheet.appendChild(crossScoreForRound);
+  var naughtsScoreForRound = document.createElement('div');
+  naughtsScoreForRound.textContent = naughtsPoint;
+  naughtsScoreSheet.appendChild(naughtsScoreForRound);  
+}
 
 var assignPointsForRound = function(winner) {
-  var crossScoreForRound = document.createElement('div');
-  var naughtsScoreForRound = document.createElement('div');
   if (winner === 'cross') {
-    crossScoreForRound.textContent = '1';
-    crossScoreSheet.appendChild(crossScoreForRound);
-    naughtsScoreForRound.textContent = '0';
-    naughtsScoreSheet.appendChild(naughtsScoreForRound);
+    fillInScoreSheet('1','0');
   } else if (winner === 'naught') {
-    crossScoreForRound.textContent = '0';
-    crossScoreSheet.appendChild(crossScoreForRound);
-    naughtsScoreForRound.textContent = '1';
-    naughtsScoreSheet.appendChild(naughtsScoreForRound);
+    fillInScoreSheet('0','1');
   } else if (winner === 'none') {
-    crossScoreForRound.textContent = '0';
-    crossScoreSheet.appendChild(crossScoreForRound);
-    naughtsScoreForRound.textContent = '0';
-    naughtsScoreSheet.appendChild(naughtsScoreForRound);
+    fillInScoreSheet('0','0');
   }
   setTimeout(clearBoard, 1000);
 }
