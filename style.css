@@ -13,8 +13,7 @@ body {
 header {
   background-color: #E5C4A1;
   display: flex;
-  align-items: center;
-  flex-direction: column;
+  justify-content: center;
 }
 
 main {
@@ -48,7 +47,7 @@ main {
 
 footer {
   background-color: #E5C4A1;
-
+  
 }
 
 /* @media (min-width: 40em) {

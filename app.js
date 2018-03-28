@@ -70,9 +70,6 @@ var winCondition = function() {
     return true;
   } else if (checkRow(6,7,8) === true) {
     return true;
-  } else if (playArea.indexOf('emptySquare') === -1){
-    console.log('no one won')
-    return false 
   } else {
     return false;
   }
@@ -90,8 +87,12 @@ var tallyPoints = function(winner) {
     playerTwosArea.appendChild(scoreOne);
     playerOnesArea.appendChild(scoreZero);
   }
+<<<<<<< HEAD
 
   setTimeout(clearBoard, 1000);
+=======
+  clearBoard();
+>>>>>>> parent of 94961e6... fix logic for winning game, delayed clear board
 }
 
 var placeMark = function(markName) {
@@ -117,16 +118,28 @@ var chooseSpace = function(event){
     playMove(whichPlayer, squareId);
     placeMark(whichPlayer);
     if (winCondition() === true) {
+<<<<<<< HEAD
       disableBoard();
       tallyPoints(whichPlayer);
+=======
+      addWinLose(whichPlayer);
+      console.log(whichPlayer + " is the winner!");
+      // disableBoard();
+>>>>>>> parent of 94961e6... fix logic for winning game, delayed clear board
     }
     whichPlayer = 'naught';
   } else if (whichPlayer === 'naught') {
     playMove(whichPlayer, squareId);
     placeMark(whichPlayer);
     if (winCondition() === true) {
+<<<<<<< HEAD
       disableBoard();
       tallyPoints(whichPlayer);
+=======
+      addWinLose(whichPlayer);
+      console.log(whichPlayer + " is the winner!");
+      // disableBoard();
+>>>>>>> parent of 94961e6... fix logic for winning game, delayed clear board
     }
     whichPlayer = 'cross';
   }
