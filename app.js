@@ -44,7 +44,7 @@ var playMove = function(currentPlayer,  squareId) {
 }
 
 var checkRow = function(position1, position2, position3) {
-  if (playArea[position1] == "") {
+  if (playArea[position1] == 'emptySquare') {
     return false;
   } else if (playArea[position2] !== playArea[position3]) {
     return false;
@@ -72,7 +72,7 @@ var winCondition = function() {
     return true;
   } else if (playArea.indexOf('emptySquare') === -1){
     console.log('no one won')
-    return false 
+    return false;
   } else {
     return false;
   }
