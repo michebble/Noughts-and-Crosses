@@ -70,9 +70,6 @@ var winCondition = function() {
     return true;
   } else if (checkRow(6,7,8) === true) {
     return true;
-  } else if (playArea.indexOf('emptySquare') === -1){
-    console.log('no one won')
-    return false;
   } else {
     return false;
   }
@@ -90,7 +87,6 @@ var tallyPoints = function(winner) {
     playerTwosArea.appendChild(scoreOne);
     playerOnesArea.appendChild(scoreZero);
   }
-
   setTimeout(clearBoard, 1000);
 }
 
@@ -119,20 +115,26 @@ var chooseSpace = function(event){
     if (winCondition() === true) {
       disableBoard();
       tallyPoints(whichPlayer);
-    }
+    } else if (winCondition() === false && playArea.indexOf('emptySquare') === -1) {
+      console.log("game over");
+      setTimeout(clearBoard, 1000);
+    } 
     whichPlayer = 'naught';
   } else if (whichPlayer === 'naught') {
     playMove(whichPlayer, squareId);
     placeMark(whichPlayer);
     if (winCondition() === true) {
-      disableBoard();
+      
       tallyPoints(whichPlayer);
-    }
+    } else if (winCondition() === false && playArea.indexOf('emptySquare') === -1) {
+      console.log("game over");
+      setTimeout(clearBoard, 1000);
+    } 
     whichPlayer = 'cross';
   }
   console.log(playArea);
 }
-
+//  (playArea.indexOf('emptySquare') === -1)
 
 // var assignToken = function(event) {
 //   event.target.style.backgroundImage = "url('https://www.fillmurray.com/" + event.target.clientHeight + "/" + event.target.clientWidth + "')";
