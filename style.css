@@ -48,7 +48,10 @@ main {
 
 footer {
   background-color: #E5C4A1;
-
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: row;
 }
 
 /* @media (min-width: 40em) {

@@ -77,12 +77,9 @@ var fillInScoreSheet = function(crossPoint, naughtsPoint) {
   naughtsScoreSheet.appendChild(naughtsScoreForRound);  
 }
 
-var bestOfThree = function(numberOfRoundsWon) {
+var wonThreeGames = function(numberOfRoundsWon) {
   if (numberOfRoundsWon === 3) {
-    var squaresToClear = document.querySelectorAll('.square');
-    for (var i = 0; i < 9; i++) {
-      gameBoard.removeChild(squaresToClear[i]);
-    }
+    return true;
   }
 }
 
@@ -90,15 +87,15 @@ var assignPointsForRound = function(winner) {
   if (winner === 'cross') {
     fillInScoreSheet('1','0');
     crossRoundsWon += 1;
-    bestOfThree(crossRoundsWon);
+    wonThreeGames(crossRoundsWon);
   } else if (winner === 'naught') {
     fillInScoreSheet('0','1');
     naughtsRoundsWon += 1;
-    bestOfThree(naughtsRoundsWon);
+    wonThreeGames(naughtsRoundsWon);
   } else if (winner === 'none') {
     fillInScoreSheet('0','0');
     drawnGames += 1;
-    bestOfThree(drawnGames);
+    wonThreeGames(drawnGames);
   }
   setTimeout(clearBoard, 1000);
 }
@@ -161,13 +158,16 @@ get the elemets
 
 */
 
-
-
 var gameBoard = document.querySelector('.game-board');
 var crossScoreSheet = document.querySelector('.player-ones-area');
 var naughtsScoreSheet = document.querySelector('.player-twos-area');
+var newGameBtn = document.querySelector('.new-game-btn');
+var bonusBtn = document.querySelector('.bonus-btn');
+var gameMessage = document.querySelector('.game-message');
 
 var createBoard = function() {
+  playArea = new Array(9).fill('emptySquare');
+  newGameBtn.disabled = true;
   for (var i = 0; i < 9; i++) {
     var gameSquare = document.createElement('div');
     gameSquare.addEventListener('click', activeSquare);
@@ -184,8 +184,14 @@ var clearBoard =function() {
   for (var i = 0; i < 9; i++) {
     gameBoard.removeChild(squaresToClear[i]);
   }
-  playArea = new Array(9).fill('emptySquare');
+  if (wonThreeGames(crossRoundsWon) || wonThreeGames(naughtsRoundsWon) || wonThreeGames(drawnGames)) {
+    crossRoundsWon = 0;
+    naughtsRoundsWon = 0;
+    drawnGames = 0;
+    newGameBtn.disabled= false;
+    return
+  }
   // currentPlayersName = 'cross';
   createBoard();
 }
-createBoard();
+newGameBtn.addEventListener('click', createBoard ); 
