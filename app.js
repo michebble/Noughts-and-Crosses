@@ -41,8 +41,9 @@ var playArea = new Array(9).fill('emptySquare');
 var winningCombinations = [[0,1,2],[0,3,6],[0,4,8],[1,4,7],[2,4,6],[2,5,8],[3,4,5],[6,7,8]];
 var currentPlayersName = 'cross';
 var crossRoundsWon = 0;
-var naughtsRoundsWon = 0;
+var noughtsRoundsWon = 0;
 var drawnGames = 0;
+var thisRoundsAnimation = '';
 
 var storeMove = function(currentPlayersName,  squareId) {
   playArea[squareId] = currentPlayersName;
@@ -67,13 +68,13 @@ var winCondition = function() {
   return false;
 }
 
-var fillInScoreSheet = function(crossPoint, naughtsPoint) {
+var fillInScoreSheet = function(crossPoint, noughtsPoint) {
   var crossScoreForRound = document.createElement('div');
   crossScoreForRound.textContent = crossPoint;
   crossScoreSheet.appendChild(crossScoreForRound);
-  var naughtsScoreForRound = document.createElement('div');
-  naughtsScoreForRound.textContent = naughtsPoint;
-  naughtsScoreSheet.appendChild(naughtsScoreForRound);  
+  var noughtsScoreForRound = document.createElement('div');
+  noughtsScoreForRound.textContent = noughtsPoint;
+  noughtsScoreSheet.appendChild(noughtsScoreForRound);  
 }
 
 var wonThreeGames = function(numberOfRoundsWon) {
@@ -87,10 +88,10 @@ var assignPointsForRound = function(winner) {
     fillInScoreSheet('1','0');
     crossRoundsWon += 1;
     wonThreeGames(crossRoundsWon);
-  } else if (winner === 'naught') {
+  } else if (winner === 'nought') {
     fillInScoreSheet('0','1');
-    naughtsRoundsWon += 1;
-    wonThreeGames(naughtsRoundsWon);
+    noughtsRoundsWon += 1;
+    wonThreeGames(noughtsRoundsWon);
   } else if (winner === 'none') {
     fillInScoreSheet('0','0');
     drawnGames += 1;
@@ -102,7 +103,7 @@ var assignPointsForRound = function(winner) {
 var placePlayerSymbol = function(symbolName) {
   event.target.style.backgroundImage = "url('" + symbolName + ".png')";
   event.target.style.backgroundSize = "contain"; 
-  event.target.classList.remove('rotateIn');
+  event.target.classList.remove(thisRoundsAnimation);
   event.target.classList.add('jello');
   event.target.removeEventListener('click', activeSquare);
 }
@@ -133,8 +134,8 @@ var activeSquare = function(event){
   if (currentPlayersName === 'cross') {
     claimSquare(currentPlayersName, squareId);
     isGameOver(currentPlayersName);
-    currentPlayersName = 'naught';
-  } else if (currentPlayersName === 'naught') {
+    currentPlayersName = 'nought';
+  } else if (currentPlayersName === 'nought') {
     claimSquare(currentPlayersName, squareId);
     isGameOver(currentPlayersName);
     currentPlayersName = 'cross';
@@ -159,7 +160,7 @@ get the elemets
 
 var gameBoard = document.querySelector('.game-board');
 var crossScoreSheet = document.querySelector('.player-ones-area');
-var naughtsScoreSheet = document.querySelector('.player-twos-area');
+var noughtsScoreSheet = document.querySelector('.player-twos-area');
 var newGameBtn = document.querySelector('.new-game-btn');
 var bonusBtn = document.querySelector('.bonus-btn');
 var gameMessage = document.querySelector('.game-message');
@@ -172,7 +173,7 @@ var randomAnimation = function() {
 var createBoard = function() {
   playArea = new Array(9).fill('emptySquare');
   newGameBtn.disabled = true;
-  var thisRoundsAnimation = randomAnimation();
+  thisRoundsAnimation = randomAnimation();
   for (var i = 0; i < 9; i++) {
     var gameSquare = document.createElement('div');
     gameSquare.addEventListener('click', activeSquare);
@@ -186,7 +187,7 @@ var createBoard = function() {
 
 var resetGame = function () {
   crossRoundsWon = 0;
-  naughtsRoundsWon = 0;
+  noughtsRoundsWon = 0;
   drawnGames = 0;
   newGameBtn.disabled= false;
   currentPlayersName = 'cross';
@@ -201,7 +202,7 @@ var removeSquares = function() {
 
 var clearBoard =function() {
   removeSquares();
-  if (wonThreeGames(crossRoundsWon) || wonThreeGames(naughtsRoundsWon) || wonThreeGames(drawnGames)) {
+  if (wonThreeGames(crossRoundsWon) || wonThreeGames(noughtsRoundsWon) || wonThreeGames(drawnGames)) {
     resetGame();
   } else {
     createBoard();

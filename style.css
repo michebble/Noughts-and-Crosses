@@ -44,6 +44,7 @@ main {
   width: 10em;
   background-color: #1DACE8;
   text-align: center;
+  flex-grow: 1;
 }
 
 footer {
