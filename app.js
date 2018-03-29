@@ -37,13 +37,16 @@ places to check for win
 
 
 
-
 var playArea = new Array(9).fill('emptySquare');
 var winningCombinations = [[0,1,2],[0,3,6],[0,4,8],[1,4,7],[2,4,6],[2,5,8],[3,4,5],[6,7,8]];
-var currentPlayer = 'cross';
+var currentPlayersName = 'cross';
 
-var storeMove = function(currentPlayer,  squareId) {
-  playArea[squareId] = currentPlayer;
+var crossRoundsWon = 0;
+var naughtsRoundsWon = 0;
+var drawnGames = 0;
+
+var storeMove = function(currentPlayersName,  squareId) {
+  playArea[squareId] = currentPlayersName;
 }
 
 var checkRow = function(position1, position2, position3) {
@@ -74,26 +77,39 @@ var fillInScoreSheet = function(crossPoint, naughtsPoint) {
   naughtsScoreSheet.appendChild(naughtsScoreForRound);  
 }
 
+var bestOfThree = function(numberOfRoundsWon) {
+  if (numberOfRoundsWon === 3) {
+    var squaresToClear = document.querySelectorAll('.square');
+    for (var i = 0; i < 9; i++) {
+      gameBoard.removeChild(squaresToClear[i]);
+    }
+  }
+}
+
 var assignPointsForRound = function(winner) {
   if (winner === 'cross') {
     fillInScoreSheet('1','0');
+    crossRoundsWon += 1;
+    bestOfThree(crossRoundsWon);
   } else if (winner === 'naught') {
     fillInScoreSheet('0','1');
+    naughtsRoundsWon += 1;
+    bestOfThree(naughtsRoundsWon);
   } else if (winner === 'none') {
     fillInScoreSheet('0','0');
+    drawnGames += 1;
+    bestOfThree(drawnGames);
   }
   setTimeout(clearBoard, 1000);
 }
 
-var placePlayerSymbol = function(markName) {
-  event.target.style.backgroundImage = "url('" + markName + ".png')";
+var placePlayerSymbol = function(symbolName) {
+  event.target.style.backgroundImage = "url('" + symbolName + ".png')";
   event.target.style.backgroundSize = "contain"; 
   event.target.classList.remove('rotateIn');
   event.target.classList.add('jello');
   event.target.removeEventListener('click', activeSquare);
 }
-
-
 
 var disableBoard = function() {
   var squareToDisable = document.querySelectorAll('.square');
@@ -102,15 +118,15 @@ var disableBoard = function() {
   }
 }
 
-var claimSquare = function (currentPlayer, squareId) {
-  storeMove(currentPlayer, squareId);
-  placePlayerSymbol(currentPlayer);
+var claimSquare = function (currentPlayersName, squareId) {
+  storeMove(currentPlayersName, squareId);
+  placePlayerSymbol(currentPlayersName);
 }
 
-var isGameOver = function(currentPlayer) {
+var isGameOver = function(currentPlayersName) {
   if (winCondition() === true) {
     disableBoard();
-    assignPointsForRound(currentPlayer);
+    assignPointsForRound(currentPlayersName);
   } else if (winCondition() === false && playArea.indexOf('emptySquare') === -1) {
     assignPointsForRound('none');
   } 
@@ -118,14 +134,14 @@ var isGameOver = function(currentPlayer) {
 
 var activeSquare = function(event){
   var squareId = Number(event.target.getAttribute('data-id'));
-  if (currentPlayer === 'cross') {
-    claimSquare(currentPlayer, squareId);
-    isGameOver(currentPlayer);
-    currentPlayer = 'naught';
-  } else if (currentPlayer === 'naught') {
-    claimSquare(currentPlayer, squareId);
-    isGameOver(currentPlayer);
-    currentPlayer = 'cross';
+  if (currentPlayersName === 'cross') {
+    claimSquare(currentPlayersName, squareId);
+    isGameOver(currentPlayersName);
+    currentPlayersName = 'naught';
+  } else if (currentPlayersName === 'naught') {
+    claimSquare(currentPlayersName, squareId);
+    isGameOver(currentPlayersName);
+    currentPlayersName = 'cross';
   }
 }
 //  (playArea.indexOf('emptySquare') === -1)
@@ -169,7 +185,7 @@ var clearBoard =function() {
     gameBoard.removeChild(squaresToClear[i]);
   }
   playArea = new Array(9).fill('emptySquare');
-  // currentPlayer = 'cross';
+  // currentPlayersName = 'cross';
   createBoard();
 }
 createBoard();
