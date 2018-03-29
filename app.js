@@ -40,7 +40,6 @@ places to check for win
 var playArea = new Array(9).fill('emptySquare');
 var winningCombinations = [[0,1,2],[0,3,6],[0,4,8],[1,4,7],[2,4,6],[2,5,8],[3,4,5],[6,7,8]];
 var currentPlayersName = 'cross';
-
 var crossRoundsWon = 0;
 var naughtsRoundsWon = 0;
 var drawnGames = 0;
@@ -165,33 +164,47 @@ var newGameBtn = document.querySelector('.new-game-btn');
 var bonusBtn = document.querySelector('.bonus-btn');
 var gameMessage = document.querySelector('.game-message');
 
+var randomAnimation = function() {
+  var animations = ['rotateIn','bounceIn', 'flipInX','flipInX','zoomIn']
+  return animations[Math.floor(Math.random() * animations.length)]
+}
+
 var createBoard = function() {
   playArea = new Array(9).fill('emptySquare');
   newGameBtn.disabled = true;
+  var thisRoundsAnimation = randomAnimation();
   for (var i = 0; i < 9; i++) {
     var gameSquare = document.createElement('div');
     gameSquare.addEventListener('click', activeSquare);
     gameSquare.className = 'square';
     gameSquare.setAttribute('data-id',i);
     gameSquare.classList.add('animated');
-    gameSquare.classList.add('rotateIn');
+    gameSquare.classList.add(thisRoundsAnimation);
     gameBoard.appendChild(gameSquare);
   }
 }
 
-var clearBoard =function() {
+var resetGame = function () {
+  crossRoundsWon = 0;
+  naughtsRoundsWon = 0;
+  drawnGames = 0;
+  newGameBtn.disabled= false;
+  currentPlayersName = 'cross';
+}
+
+var removeSquares = function() {
   var squaresToClear = document.querySelectorAll('.square');
   for (var i = 0; i < 9; i++) {
     gameBoard.removeChild(squaresToClear[i]);
   }
+}
+
+var clearBoard =function() {
+  removeSquares();
   if (wonThreeGames(crossRoundsWon) || wonThreeGames(naughtsRoundsWon) || wonThreeGames(drawnGames)) {
-    crossRoundsWon = 0;
-    naughtsRoundsWon = 0;
-    drawnGames = 0;
-    newGameBtn.disabled= false;
-    return
+    resetGame();
+  } else {
+    createBoard();
   }
-  // currentPlayersName = 'cross';
-  createBoard();
 }
 newGameBtn.addEventListener('click', createBoard ); 
