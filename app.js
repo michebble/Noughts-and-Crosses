@@ -34,16 +34,13 @@ places to check for win
 
 
 */
-
-
-
 var playArea = new Array(9).fill('emptySquare');
 var winningCombinations = [[0,1,2],[0,3,6],[0,4,8],[1,4,7],[2,4,6],[2,5,8],[3,4,5],[6,7,8]];
 var currentPlayersName = 'cross';
 var crossRoundsWon = 0;
 var noughtsRoundsWon = 0;
 var drawnGames = 0;
-var thisRoundsAnimation = '';
+var thisRoundsStartingAnimation = '';
 
 var storeMove = function(currentPlayersName,  squareId) {
   playArea[squareId] = currentPlayersName;
@@ -68,13 +65,11 @@ var winCondition = function() {
   return false;
 }
 
-var fillInScoreSheet = function(crossPoint, noughtsPoint) {
-  var crossScoreForRound = document.createElement('div');
-  crossScoreForRound.textContent = crossPoint;
-  crossScoreSheet.appendChild(crossScoreForRound);
-  var noughtsScoreForRound = document.createElement('div');
-  noughtsScoreForRound.textContent = noughtsPoint;
-  noughtsScoreSheet.appendChild(noughtsScoreForRound);  
+var fillInScoreSheet = function() {
+  
+crossScoreSheet.textContent = crossRoundsWon;
+
+noughtsScoreSheet.textContent = noughtsRoundsWon; 
 }
 
 var wonThreeGames = function(numberOfRoundsWon) {
@@ -85,15 +80,16 @@ var wonThreeGames = function(numberOfRoundsWon) {
 
 var assignPointsForRound = function(winner) {
   if (winner === 'cross') {
-    fillInScoreSheet('1','0');
     crossRoundsWon += 1;
+    fillInScoreSheet();
+    
     wonThreeGames(crossRoundsWon);
   } else if (winner === 'nought') {
-    fillInScoreSheet('0','1');
     noughtsRoundsWon += 1;
+    fillInScoreSheet();
+    
     wonThreeGames(noughtsRoundsWon);
   } else if (winner === 'none') {
-    fillInScoreSheet('0','0');
     drawnGames += 1;
     wonThreeGames(drawnGames);
   }
@@ -103,7 +99,7 @@ var assignPointsForRound = function(winner) {
 var placePlayerSymbol = function(symbolName) {
   event.target.style.backgroundImage = "url('" + symbolName + ".png')";
   event.target.style.backgroundSize = "contain"; 
-  event.target.classList.remove(thisRoundsAnimation);
+  event.target.classList.remove(thisRoundsStartingAnimation);
   event.target.classList.add('jello');
   event.target.removeEventListener('click', activeSquare);
 }
@@ -161,8 +157,6 @@ get the elemets
 var gameBoard = document.querySelector('.game-board');
 var crossScoreSheet = document.querySelector('.player-ones-area');
 var noughtsScoreSheet = document.querySelector('.player-twos-area');
-var newGameBtn = document.querySelector('.new-game-btn');
-var bonusBtn = document.querySelector('.bonus-btn');
 var gameMessage = document.querySelector('.game-message');
 
 var randomAnimation = function() {
@@ -172,15 +166,14 @@ var randomAnimation = function() {
 
 var createBoard = function() {
   playArea = new Array(9).fill('emptySquare');
-  newGameBtn.disabled = true;
-  thisRoundsAnimation = randomAnimation();
+  thisRoundsStartingAnimation = randomAnimation();
   for (var i = 0; i < 9; i++) {
     var gameSquare = document.createElement('div');
     gameSquare.addEventListener('click', activeSquare);
     gameSquare.className = 'square';
     gameSquare.setAttribute('data-id',i);
     gameSquare.classList.add('animated');
-    gameSquare.classList.add(thisRoundsAnimation);
+    gameSquare.classList.add(thisRoundsStartingAnimation);
     gameBoard.appendChild(gameSquare);
   }
 }
@@ -189,7 +182,6 @@ var resetGame = function () {
   crossRoundsWon = 0;
   noughtsRoundsWon = 0;
   drawnGames = 0;
-  newGameBtn.disabled= false;
   currentPlayersName = 'cross';
 }
 
@@ -204,8 +196,19 @@ var clearBoard =function() {
   removeSquares();
   if (wonThreeGames(crossRoundsWon) || wonThreeGames(noughtsRoundsWon) || wonThreeGames(drawnGames)) {
     resetGame();
+    gameBoard.textContent = 'play a again?'
+    gameBoard.addEventListener('click', startNewGame);
   } else {
     createBoard();
   }
 }
-newGameBtn.addEventListener('click', createBoard ); 
+
+var startNewGame = function () {
+  gameBoard.textContent = '';
+  gameBoard.removeEventListener('click', startNewGame);
+  createBoard();
+}
+
+
+gameBoard.textContent = 'tap here to play'
+gameBoard.addEventListener('click', startNewGame);
