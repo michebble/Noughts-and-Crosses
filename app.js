@@ -159,6 +159,9 @@ var crossScoreSheet = document.querySelector('.player-ones-area');
 var noughtsScoreSheet = document.querySelector('.player-twos-area');
 var gameMessage = document.querySelector('.game-message');
 
+crossScoreSheet.textContent = 0;
+noughtsScoreSheet.textContent = 0;
+
 var randomAnimation = function() {
   var animations = ['rotateIn','bounceIn', 'flipInX','flipInX','zoomIn']
   return animations[Math.floor(Math.random() * animations.length)]
@@ -179,6 +182,8 @@ var createBoard = function() {
 }
 
 var resetGame = function () {
+  crossScoreSheet.textContent = 0;
+  noughtsScoreSheet.textContent = 0;
   crossRoundsWon = 0;
   noughtsRoundsWon = 0;
   drawnGames = 0;
@@ -210,5 +215,5 @@ var startNewGame = function () {
 }
 
 
-gameBoard.textContent = 'tap here to play'
+gameBoard.innerHTML = 'click here to play'
 gameBoard.addEventListener('click', startNewGame);

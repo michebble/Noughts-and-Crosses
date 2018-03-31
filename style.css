@@ -3,6 +3,7 @@
 }
 
 body {
+  margin: 0;
   font-family: 'Righteous', cursive;
   color: #F24D29;
   display: flex;
@@ -24,7 +25,9 @@ main {
 }
 .game-board {
   height: 30em;
+  min-height: 30em;
   width: 30em;
+  min-width: 30em;
   background-color: #1C366B;
   display: flex;
   flex-wrap: wrap;
@@ -41,10 +44,11 @@ main {
 }
 
 .score-sheet {
-  width: 10em;
+  min-width: 13em;
   background-color: #1DACE8;
   text-align: center;
   flex-grow: 1;
+  flex-flow: column wrap;
 }
 
 footer {
@@ -56,6 +60,7 @@ footer {
 }
 
 .player-twos-area, .player-ones-area {
+  flex-grow: 1;
   font-size: 4em;
 }
 
