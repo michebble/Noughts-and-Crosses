@@ -41,6 +41,16 @@ var crossRoundsWon = 0;
 var noughtsRoundsWon = 0;
 var drawnGames = 0;
 var thisRoundsStartingAnimation = '';
+var createBoardSfx = new Audio('createBoard.wav');
+var gameOverSfx = new Audio('gameOver.wav');
+var roundOverSfx = new Audio('roundOver.wav');
+var crossSelectSquareSfx = new Audio('crossSelectSquare.wav');
+var noughtSelectSquareSfx = new Audio('noughtSelectSquare.wav');
+
+var playSfx = function(sfx) {
+  sfx.play();
+}
+
 
 var storeMove = function(currentPlayersName,  squareId) {
   playArea[squareId] = currentPlayersName;
@@ -113,12 +123,14 @@ var claimSquare = function (currentPlayersName, squareId) {
   placePlayerSymbol(currentPlayersName);
 }
 
-var isGameOver = function(currentPlayersName) {
+var isRoundOver = function(currentPlayersName) {
   if (winCondition() === true) {
     disableBoard();
     assignPointsForRound(currentPlayersName);
+    setTimeout(playSfx(roundOverSfx), 2500);
   } else if (winCondition() === false && playArea.indexOf('emptySquare') === -1) {
     assignPointsForRound('none');
+
   } 
 }
 
@@ -126,11 +138,13 @@ var activeSquare = function(event){
   var squareId = Number(event.target.getAttribute('data-id'));
   if (currentPlayersName === 'cross') {
     claimSquare(currentPlayersName, squareId);
-    isGameOver(currentPlayersName);
+    playSfx(crossSelectSquareSfx);
+    isRoundOver(currentPlayersName);
     currentPlayersName = 'nought';
   } else if (currentPlayersName === 'nought') {
     claimSquare(currentPlayersName, squareId);
-    isGameOver(currentPlayersName);
+    playSfx(noughtSelectSquareSfx);
+    isRoundOver(currentPlayersName);
     currentPlayersName = 'cross';
   }
   setCommentryMessage(currentPlayersName + "'s turn.")
@@ -182,6 +196,7 @@ var createBoard = function() {
     gameSquare.classList.add(thisRoundsStartingAnimation);
     gameBoard.appendChild(gameSquare);
   }
+  playSfx(createBoardSfx);
 }
 
 var resetGame = function () {
@@ -206,6 +221,7 @@ var clearBoard =function() {
     resetGame();
     setCommentryMessage(currentPlayersName + ' is the winner!')
     setGameMessage('Play again?')
+    playSfx(gameOverSfx);
     gameBoard.addEventListener('click', startNewGame);
   } else {
     createBoard();
