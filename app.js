@@ -41,11 +41,13 @@ var crossRoundsWon = 0;
 var noughtsRoundsWon = 0;
 var drawnGames = 0;
 var thisRoundsStartingAnimation = '';
-var createBoardSfx = new Audio('createBoard.wav');
-var gameOverSfx = new Audio('gameOver.wav');
-var roundOverSfx = new Audio('roundOver.wav');
-var crossSelectSquareSfx = new Audio('crossSelectSquare.wav');
-var noughtSelectSquareSfx = new Audio('noughtSelectSquare.wav');
+var createBoardSfx = new Audio('sounds/createBoard.wav');
+var gameOverSfx = new Audio('sounds/gameOver.wav');
+var roundOverSfx = new Audio('sounds/roundOver.wav');
+var crossSelectSquareSfx = new Audio('sounds/crossSelectSquare.wav');
+var noughtSelectSquareSfx = new Audio('sounds/noughtSelectSquare.wav');
+var drawnRoundSfx = new Audio('sounds/drawnRound.wav');
+var drawnGameSfx = new Audio('sounds/drawnGame.wav');
 
 var playSfx = function(sfx) {
   sfx.play();
@@ -130,7 +132,7 @@ var isRoundOver = function(currentPlayersName) {
     setTimeout(playSfx(roundOverSfx), 2500);
   } else if (winCondition() === false && playArea.indexOf('emptySquare') === -1) {
     assignPointsForRound('none');
-
+    setTimeout(playSfx(drawnRoundSfx), 3000);
   } 
 }
 
@@ -217,11 +219,17 @@ var removeSquares = function() {
 
 var clearBoard =function() {
   removeSquares();
-  if (wonThreeGames(crossRoundsWon) || wonThreeGames(noughtsRoundsWon) || wonThreeGames(drawnGames)) {
+  if (wonThreeGames(crossRoundsWon) || wonThreeGames(noughtsRoundsWon)) {
     resetGame();
     setCommentryMessage(currentPlayersName + ' is the winner!')
     setGameMessage('Play again?')
     playSfx(gameOverSfx);
+    gameBoard.addEventListener('click', startNewGame);
+  } else if (wonThreeGames(drawnGames)) {
+    resetGame();
+    setCommentryMessage('3 drawn games.')
+    setGameMessage('Play again?')
+    playSfx(drawnGameSfx);
     gameBoard.addEventListener('click', startNewGame);
   } else {
     createBoard();
