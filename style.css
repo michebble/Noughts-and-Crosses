@@ -10,6 +10,7 @@ body {
   flex-direction: column;
   justify-content: center;
   background-color: #1DACE8;
+
 }
 
 header {
@@ -18,6 +19,16 @@ header {
   align-items: center;
   flex-direction: column;
 }
+
+h1, .center-message {
+  text-shadow: 4px 4px 2px rgb(0, 0, 0);
+}
+
+h1 {
+  font-size: 3.5em;
+}
+
+
 
 main {
   display: flex;
@@ -37,7 +48,7 @@ main {
 }
 
 .center-message {
-  font-size: 45px;
+  font-size: 40px;
 }
 
 .square {
@@ -60,7 +71,7 @@ footer {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  flex-direction: row;
+  
 }
 
 .player-twos-area, .player-ones-area {
@@ -72,16 +83,10 @@ img {
   height: 100%;
 }
 
-@media (min-width: 40em) {
-  main {
-    flex-wrap: nowrap;
-  }
-
-  .game-board {
-    order: 0;
-  }
-
-
-
+.game-commentry {
+  font-size: 2em;
+  padding: 10px 0;
 }
+
+
 

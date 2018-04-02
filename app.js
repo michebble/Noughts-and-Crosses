@@ -91,6 +91,7 @@ var assignPointsForRound = function(winner) {
     drawnGames += 1;
     wonThreeGames(drawnGames);
   }
+
   setTimeout(clearBoard, 1000);
 }
 
@@ -136,6 +137,7 @@ var activeSquare = function(event){
     isGameOver(currentPlayersName);
     currentPlayersName = 'cross';
   }
+  setCommentryMessage(currentPlayersName + "'s turn.")
 }
 //  (playArea.indexOf('emptySquare') === -1)
 
@@ -157,14 +159,19 @@ get the elemets
 var gameBoard = document.querySelector('.game-board');
 var crossScoreSheet = document.querySelector('.player-ones-area');
 var noughtsScoreSheet = document.querySelector('.player-twos-area');
-var gameMessage = document.querySelector('.game-message');
+var commentryBox = document.querySelector('.game-commentry');
 
 crossScoreSheet.textContent = 0;
 noughtsScoreSheet.textContent = 0;
+commentryBox.textContent = 'First to 3 games wins.';
 
 var randomAnimation = function() {
   var animations = ['rotateIn','bounceIn', 'flipInX','flipInX','zoomIn']
   return animations[Math.floor(Math.random() * animations.length)]
+}
+
+var setCommentryMessage = function (message) {
+  commentryBox.textContent = message;
 }
 
 var createBoard = function() {
@@ -201,10 +208,13 @@ var clearBoard =function() {
   removeSquares();
   if (wonThreeGames(crossRoundsWon) || wonThreeGames(noughtsRoundsWon) || wonThreeGames(drawnGames)) {
     resetGame();
+    setCommentryMessage(currentPlayersName + ' is the winner!')
     setGameMessage('Play again?')
     gameBoard.addEventListener('click', startNewGame);
   } else {
-    createBoard();
+    setGameMessage(currentPlayersName + ' lost the round!');
+    setTimeout(removeGameMessage, 3000);
+    setTimeout(createBoard, 3000);
   }
 }
 
@@ -217,6 +227,7 @@ var startNewGame = function () {
   removeGameMessage();
   gameBoard.removeEventListener('click', startNewGame);
   createBoard();
+  setCommentryMessage(currentPlayersName + "'s turn.");
 }
 
 var setGameMessage = function (noticeText) {
