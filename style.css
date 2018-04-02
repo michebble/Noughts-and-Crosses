@@ -10,7 +10,6 @@ body {
   flex-direction: column;
   justify-content: center;
   background-color: #1DACE8;
-
 }
 
 header {
@@ -24,16 +23,20 @@ h1, .center-message {
 }
 
 h1 {
+  margin: 15px;
   font-size: 3.5em;
 }
 
-
+h2, h3 {
+  font-size: 2em;
+}
 
 main {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
 }
+
 .game-board {
   height: 600px;
   width: 600px;

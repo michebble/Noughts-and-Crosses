@@ -80,20 +80,17 @@ var assignPointsForRound = function(winner) {
   if (winner === 'cross') {
     crossRoundsWon += 1;
     fillInScoreSheet();
-    
     wonThreeGames(crossRoundsWon);
   } else if (winner === 'nought') {
     noughtsRoundsWon += 1;
     fillInScoreSheet();
-    
     wonThreeGames(noughtsRoundsWon);
   } else if (winner === 'none') {
     drawnGames += 1;
     wonThreeGames(drawnGames);
   }
-  clearBoard();
+  setTimeout(clearBoard, 1000);
 }
-
 
 var placePlayerSymbol = function(symbolName) {
   var playerImage = document.createElement('img');
@@ -211,9 +208,7 @@ var clearBoard =function() {
     setGameMessage('Play again?')
     gameBoard.addEventListener('click', startNewGame);
   } else {
-    setGameMessage(currentPlayersName + ' won the round!');
-    setTimeout(removeGameMessage, 3000);
-    setTimeout(createBoard, 3000);
+    createBoard();
   }
 }
 
