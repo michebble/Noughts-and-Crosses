@@ -3,11 +3,14 @@
 }
 
 body {
+  margin: 0;
   font-family: 'Righteous', cursive;
   color: #F24D29;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-color: #1DACE8;
+
 }
 
 header {
@@ -16,20 +19,35 @@ header {
   justify-content: center;
 }
 
+h1, .center-message {
+  text-shadow: 4px 4px 2px rgb(0, 0, 0);
+}
+
+h1 {
+  font-size: 3.5em;
+}
+
+
+
 main {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
 }
 .game-board {
-  height: 20em;
-  width: 20em;
+  height: 600px;
+  width: 600px;
   background-color: #1C366B;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
   order: 0;
+  font-size: 30px;
+}
+
+.center-message {
+  font-size: 40px;
 }
 
 .square {
@@ -39,22 +57,32 @@ main {
   height: 30%;
 }
 
-.player-ones-area, .player-twos-area {
-  width: 10em;
+.score-sheet {
+  min-width: 13em;
   background-color: #1DACE8;
   text-align: center;
+  flex-grow: 1;
+  flex-flow: column wrap;
 }
 
 footer {
   background-color: #E5C4A1;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
   
 }
 
-/* @media (min-width: 40em) {
-  .game-board {
-    order: 0;
-  }
+.player-twos-area, .player-ones-area {
+  flex-grow: 1;
+  font-size: 4em;
+}
 
+img {
+  height: 100%;
+}
 
-} */
-
+.game-commentry {
+  font-size: 2em;
+  padding: 10px 0;
+}

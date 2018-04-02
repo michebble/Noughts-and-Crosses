@@ -34,17 +34,20 @@ places to check for win
 
 
 */
-
-
 var playArea = new Array(9).fill('emptySquare');
-var whichPlayer = 'cross';
+var winningCombinations = [[0,1,2],[0,3,6],[0,4,8],[1,4,7],[2,4,6],[2,5,8],[3,4,5],[6,7,8]];
+var currentPlayersName = 'cross';
+var crossRoundsWon = 0;
+var noughtsRoundsWon = 0;
+var drawnGames = 0;
+var thisRoundsStartingAnimation = '';
 
-var playMove = function(currentPlayer,  squareId) {
-  playArea[squareId] = currentPlayer;
+var storeMove = function(currentPlayersName,  squareId) {
+  playArea[squareId] = currentPlayersName;
 }
 
 var checkRow = function(position1, position2, position3) {
-  if (playArea[position1] == "") {
+  if (playArea[position1] == 'emptySquare') {
     return false;
   } else if (playArea[position2] !== playArea[position3]) {
     return false;
@@ -54,98 +57,88 @@ var checkRow = function(position1, position2, position3) {
 }
 
 var winCondition = function() {
-  if (checkRow(0,1,2) === true) {
+  for (var possibleCombination = 0; possibleCombination < winningCombinations.length; possibleCombination++) {
+    if (checkRow(winningCombinations[possibleCombination][0],winningCombinations[possibleCombination][1],winningCombinations[possibleCombination][2]) === true) {
+      return true;
+    }
+  }
+  return false;
+}
+
+var fillInScoreSheet = function() {
+crossScoreSheet.textContent = crossRoundsWon;
+noughtsScoreSheet.textContent = noughtsRoundsWon; 
+}
+
+var wonThreeGames = function(numberOfRoundsWon) {
+  if (numberOfRoundsWon === 3) {
     return true;
-  } else if (checkRow(0,3,6) === true) {
-    return true;
-  } else if (checkRow(0,4,8) === true) {
-    return true;
-  } else if (checkRow(1,4,7) === true) {
-    return true;
-  } else if (checkRow(2,4,6) === true) {
-    return true;
-  } else if (checkRow(2,5,8) === true) {
-    return true;
-  } else if (checkRow(3,4,5) === true) {
-    return true;
-  } else if (checkRow(6,7,8) === true) {
-    return true;
-  } else {
-    return false;
   }
 }
 
-var tallyPoints = function(winner) {
-  var scoreOne = document.createElement('div');
-  scoreOne.textContent = '1';
-  var scoreZero = document.createElement('div');
-  scoreZero.textContent = '0';
+var assignPointsForRound = function(winner) {
   if (winner === 'cross') {
-    playerOnesArea.appendChild(scoreOne);
-    playerTwosArea.appendChild(scoreZero);
-  } else if (winner === 'naught') {
-    playerTwosArea.appendChild(scoreOne);
-    playerOnesArea.appendChild(scoreZero);
+    crossRoundsWon += 1;
+    fillInScoreSheet();
+    
+    wonThreeGames(crossRoundsWon);
+  } else if (winner === 'nought') {
+    noughtsRoundsWon += 1;
+    fillInScoreSheet();
+    
+    wonThreeGames(noughtsRoundsWon);
+  } else if (winner === 'none') {
+    drawnGames += 1;
+    wonThreeGames(drawnGames);
   }
-<<<<<<< HEAD
-
-  setTimeout(clearBoard, 1000);
-=======
   clearBoard();
->>>>>>> parent of 94961e6... fix logic for winning game, delayed clear board
 }
 
-var placeMark = function(markName) {
-  event.target.style.backgroundImage = "url('" + markName + ".png')";
-  event.target.style.backgroundSize = "contain"; 
-  event.target.classList.remove('rotateIn');
+
+var placePlayerSymbol = function(symbolName) {
+  var playerImage = document.createElement('img');
+  playerImage.src = symbolName +'.png';
+  event.target.appendChild(playerImage);
+  event.target.classList.remove(thisRoundsStartingAnimation);
   event.target.classList.add('jello');
-  event.target.removeEventListener('click', chooseSpace);
+  event.target.removeEventListener('click', activeSquare);
 }
-
-
 
 var disableBoard = function() {
   var squareToDisable = document.querySelectorAll('.square');
   for (var i =0; i < 9; i++) {
-    squareToDisable[i].removeEventListener('click', chooseSpace);
+    squareToDisable[i].removeEventListener('click', activeSquare);
   }
 }
 
-var chooseSpace = function(event){
+var claimSquare = function (currentPlayersName, squareId) {
+  storeMove(currentPlayersName, squareId);
+  placePlayerSymbol(currentPlayersName);
+}
+
+var isGameOver = function(currentPlayersName) {
+  if (winCondition() === true) {
+    disableBoard();
+    assignPointsForRound(currentPlayersName);
+  } else if (winCondition() === false && playArea.indexOf('emptySquare') === -1) {
+    assignPointsForRound('none');
+  } 
+}
+
+var activeSquare = function(event){
   var squareId = Number(event.target.getAttribute('data-id'));
-  if (whichPlayer === 'cross') {
-    playMove(whichPlayer, squareId);
-    placeMark(whichPlayer);
-    if (winCondition() === true) {
-<<<<<<< HEAD
-      disableBoard();
-      tallyPoints(whichPlayer);
-=======
-      addWinLose(whichPlayer);
-      console.log(whichPlayer + " is the winner!");
-      // disableBoard();
->>>>>>> parent of 94961e6... fix logic for winning game, delayed clear board
-    }
-    whichPlayer = 'naught';
-  } else if (whichPlayer === 'naught') {
-    playMove(whichPlayer, squareId);
-    placeMark(whichPlayer);
-    if (winCondition() === true) {
-<<<<<<< HEAD
-      disableBoard();
-      tallyPoints(whichPlayer);
-=======
-      addWinLose(whichPlayer);
-      console.log(whichPlayer + " is the winner!");
-      // disableBoard();
->>>>>>> parent of 94961e6... fix logic for winning game, delayed clear board
-    }
-    whichPlayer = 'cross';
+  if (currentPlayersName === 'cross') {
+    claimSquare(currentPlayersName, squareId);
+    isGameOver(currentPlayersName);
+    currentPlayersName = 'nought';
+  } else if (currentPlayersName === 'nought') {
+    claimSquare(currentPlayersName, squareId);
+    isGameOver(currentPlayersName);
+    currentPlayersName = 'cross';
   }
-  console.log(playArea);
+  setCommentryMessage(currentPlayersName + "'s turn.")
 }
-
+//  (playArea.indexOf('emptySquare') === -1)
 
 // var assignToken = function(event) {
 //   event.target.style.backgroundImage = "url('https://www.fillmurray.com/" + event.target.clientHeight + "/" + event.target.clientWidth + "')";
@@ -162,31 +155,86 @@ get the elemets
 
 */
 
-
-
 var gameBoard = document.querySelector('.game-board');
-var playerOnesArea = document.querySelector('.player-ones-area');
-var playerTwosArea = document.querySelector('.player-twos-area');
+var crossScoreSheet = document.querySelector('.player-ones-area');
+var noughtsScoreSheet = document.querySelector('.player-twos-area');
+var commentryBox = document.querySelector('.game-commentry');
+
+crossScoreSheet.textContent = 0;
+noughtsScoreSheet.textContent = 0;
+commentryBox.textContent = 'First to 3 games wins.';
+
+var randomAnimation = function() {
+  var animations = ['rotateIn','bounceIn', 'flipInX','flipInX','zoomIn']
+  return animations[Math.floor(Math.random() * animations.length)]
+}
+
+var setCommentryMessage = function (message) {
+  commentryBox.textContent = message;
+}
 
 var createBoard = function() {
+  playArea = new Array(9).fill('emptySquare');
+  thisRoundsStartingAnimation = randomAnimation();
   for (var i = 0; i < 9; i++) {
     var gameSquare = document.createElement('div');
-    gameSquare.addEventListener('click', chooseSpace);
+    gameSquare.addEventListener('click', activeSquare);
     gameSquare.className = 'square';
     gameSquare.setAttribute('data-id',i);
     gameSquare.classList.add('animated');
-    gameSquare.classList.add('rotateIn');
+    gameSquare.classList.add(thisRoundsStartingAnimation);
     gameBoard.appendChild(gameSquare);
   }
 }
 
-var clearBoard =function() {
+var resetGame = function () {
+  crossScoreSheet.textContent = 0;
+  noughtsScoreSheet.textContent = 0;
+  crossRoundsWon = 0;
+  noughtsRoundsWon = 0;
+  drawnGames = 0;
+  currentPlayersName = 'cross';
+}
+
+var removeSquares = function() {
   var squaresToClear = document.querySelectorAll('.square');
   for (var i = 0; i < 9; i++) {
     gameBoard.removeChild(squaresToClear[i]);
   }
-  playArea = new Array(9).fill('emptySquare');
-  // whichPlayer = 'cross';
-  createBoard();
 }
-createBoard();
+
+var clearBoard =function() {
+  removeSquares();
+  if (wonThreeGames(crossRoundsWon) || wonThreeGames(noughtsRoundsWon) || wonThreeGames(drawnGames)) {
+    resetGame();
+    setCommentryMessage(currentPlayersName + ' is the winner!')
+    setGameMessage('Play again?')
+    gameBoard.addEventListener('click', startNewGame);
+  } else {
+    setGameMessage(currentPlayersName + ' lost the round!');
+    setTimeout(removeGameMessage, 3000);
+    setTimeout(createBoard, 3000);
+  }
+}
+
+var removeGameMessage = function() {
+  var messageToRemove = document.querySelector('.center-message');
+  gameBoard.removeChild(messageToRemove);
+}
+
+var startNewGame = function () {
+  removeGameMessage();
+  gameBoard.removeEventListener('click', startNewGame);
+  createBoard();
+  setCommentryMessage(currentPlayersName + "'s turn.");
+}
+
+var setGameMessage = function (noticeText) {
+  var messageBoard = document.createElement('div');
+  messageBoard.className = 'center-message';
+  messageBoard.textContent = noticeText;
+  gameBoard.appendChild(messageBoard);
+}
+
+setGameMessage('click here to play!')
+gameBoard.addEventListener('click', startNewGame);
