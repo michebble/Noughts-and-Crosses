@@ -9,6 +9,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-color: #1DACE8;
 }
 
 header {
@@ -24,16 +25,19 @@ main {
   flex-wrap: wrap;
 }
 .game-board {
-  height: 30em;
-  min-height: 30em;
-  width: 30em;
-  min-width: 30em;
+  height: 600px;
+  width: 600px;
   background-color: #1C366B;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
   order: 0;
+  font-size: 30px;
+}
+
+.center-message {
+  font-size: 45px;
 }
 
 .square {

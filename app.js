@@ -201,19 +201,32 @@ var clearBoard =function() {
   removeSquares();
   if (wonThreeGames(crossRoundsWon) || wonThreeGames(noughtsRoundsWon) || wonThreeGames(drawnGames)) {
     resetGame();
-    gameBoard.textContent = 'play a again?'
+    setGameMessage('Play again?')
     gameBoard.addEventListener('click', startNewGame);
   } else {
     createBoard();
   }
 }
 
+var removeGameMessage = function() {
+  var messageToRemove = document.querySelector('.center-message');
+  gameBoard.removeChild(messageToRemove);
+}
+
 var startNewGame = function () {
-  gameBoard.textContent = '';
+  removeGameMessage();
   gameBoard.removeEventListener('click', startNewGame);
   createBoard();
 }
 
+var setGameMessage = function (noticeText) {
+  var messageBoard = document.createElement('div');
+  messageBoard.className = 'center-message';
+  messageBoard.textContent = noticeText;
+  gameBoard.appendChild(messageBoard);
+}
 
-gameBoard.innerHTML = 'click here to play'
+
+
+setGameMessage('click here to play!')
 gameBoard.addEventListener('click', startNewGame);
