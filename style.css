@@ -68,6 +68,10 @@ footer {
   font-size: 4em;
 }
 
+img {
+  height: 100%;
+}
+
 @media (min-width: 40em) {
   main {
     flex-wrap: nowrap;

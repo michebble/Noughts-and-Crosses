@@ -66,9 +66,7 @@ var winCondition = function() {
 }
 
 var fillInScoreSheet = function() {
-  
 crossScoreSheet.textContent = crossRoundsWon;
-
 noughtsScoreSheet.textContent = noughtsRoundsWon; 
 }
 
@@ -96,9 +94,11 @@ var assignPointsForRound = function(winner) {
   setTimeout(clearBoard, 1000);
 }
 
+
 var placePlayerSymbol = function(symbolName) {
-  event.target.style.backgroundImage = "url('" + symbolName + ".png')";
-  event.target.style.backgroundSize = "contain"; 
+  var playerImage = document.createElement('img');
+  playerImage.src = symbolName +'.png';
+  event.target.appendChild(playerImage);
   event.target.classList.remove(thisRoundsStartingAnimation);
   event.target.classList.add('jello');
   event.target.removeEventListener('click', activeSquare);
@@ -225,8 +225,6 @@ var setGameMessage = function (noticeText) {
   messageBoard.textContent = noticeText;
   gameBoard.appendChild(messageBoard);
 }
-
-
 
 setGameMessage('click here to play!')
 gameBoard.addEventListener('click', startNewGame);
