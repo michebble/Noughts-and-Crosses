@@ -211,7 +211,7 @@ var clearBoard =function() {
     setGameMessage('Play again?')
     gameBoard.addEventListener('click', startNewGame);
   } else {
-    setGameMessage(currentPlayersName + ' lost the round!');
+    setGameMessage(currentPlayersName + ' won the round!');
     setTimeout(removeGameMessage, 3000);
     setTimeout(createBoard, 3000);
   }
