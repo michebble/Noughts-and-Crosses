@@ -1,4 +1,4 @@
-# Noughts & Cross
+# Noughts & Crosses
 
 A fun game for two players. Who will be first to win three rounds? The game will also end if three rounds end in a draw.
 
@@ -18,7 +18,7 @@ This game needed to be able to:
 * [x] **Switch turns** between more than one player
 * [x] **Design logic for winning** & **visually display which player won**
 * [x] **Include separate HTML / CSS / JavaScript files**
-* [x] Stick with **KISS (Keep It Simple Stupid)** principles
+* [] Stick with **KISS (Keep It Simple Stupid)** principles
 * [x] Use **Javascript** for **DOM manipulation**
 * [x]  **Deploy your game online**, where the rest of the world can access it
 * [x] Use **semantic markup** for HTML and CSS (adhere to best practices)
@@ -39,8 +39,10 @@ This game needed to be able to:
 ---
 
 ### Next Steps
+* Simplify game loop
 * Fix in game commentry to propperly display which player won the round, or if the round was drawn.
-* Improve UI to be more flexible.
+* Improve UI to be less verbose and more readable.
+* Incorporate responsive design
 * Improve browser compatibility.
 * Add responsive design to fit an average mobile phone screen.
 * Add "Bill vs Nick" bonus mode.
