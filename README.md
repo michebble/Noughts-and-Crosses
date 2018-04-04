@@ -5,7 +5,7 @@ A fun game for two players. Who will be first to win three rounds? The game will
 ---
 
 ### Usage Instructions
-Click here to play the game in your browser - https://michebble.github.io/Tic-Tac-Toe/
+Click here to play the game in your browser - https://michebble.github.io/Noughts-and-Crosses/
 _Only tested on Chrome and Chromium based browsers._
 
 ---
